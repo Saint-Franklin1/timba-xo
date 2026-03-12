@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchTable } from "@/lib/supabase-helpers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,7 +13,6 @@ import { Wine, UtensilsCrossed, Calendar, Briefcase, Building2, LogOut, Plus, Tr
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
-// ---- Generic CRUD Module ----
 function CrudModule({ table, columns, label }: { table: string; columns: { key: string; label: string; type?: string }[]; label: string }) {
   const queryClient = useQueryClient();
   const [editItem, setEditItem] = useState<Record<string, unknown> | null>(null);
@@ -28,12 +26,12 @@ function CrudModule({ table, columns, label }: { table: string; columns: { key: 
   const upsertMutation = useMutation({
     mutationFn: async (item: Record<string, unknown>) => {
       if (item.id) {
-        const { error } = await supabase.from(table).update(item).eq("id", item.id as string);
+        const { error } = await (supabase.from as any)(table).update(item).eq("id", item.id as string);
         if (error) throw error;
       } else {
         const cleaned = { ...item };
         delete cleaned.id;
-        const { error } = await supabase.from(table).insert(cleaned);
+        const { error } = await (supabase.from as any)(table).insert(cleaned);
         if (error) throw error;
       }
     },
@@ -48,7 +46,7 @@ function CrudModule({ table, columns, label }: { table: string; columns: { key: 
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from(table).delete().eq("id", id);
+      const { error } = await (supabase.from as any)(table).delete().eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -111,9 +109,7 @@ function CrudModule({ table, columns, label }: { table: string; columns: { key: 
         <Table>
           <TableHeader>
             <TableRow>
-              {columns.slice(0, 4).map((c) => (
-                <TableHead key={c.key}>{c.label}</TableHead>
-              ))}
+              {columns.slice(0, 4).map((c) => <TableHead key={c.key}>{c.label}</TableHead>)}
               <TableHead className="w-24">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -128,12 +124,8 @@ function CrudModule({ table, columns, label }: { table: string; columns: { key: 
                   ))}
                   <TableCell>
                     <div className="flex gap-1">
-                      <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => openEdit(item)}>
-                        <Edit className="h-3.5 w-3.5" />
-                      </Button>
-                      <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive" onClick={() => deleteMutation.mutate(item.id as string)}>
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </Button>
+                      <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => openEdit(item)}><Edit className="h-3.5 w-3.5" /></Button>
+                      <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive" onClick={() => deleteMutation.mutate(item.id as string)}><Trash2 className="h-3.5 w-3.5" /></Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -146,7 +138,39 @@ function CrudModule({ table, columns, label }: { table: string; columns: { key: 
   );
 }
 
-// ---- Admin Dashboard ----
+function ReadOnlyTable({ table, columns, label }: { table: string; columns: string[]; label: string }) {
+  const { data: items = [] } = useQuery({
+    queryKey: [table],
+    queryFn: () => fetchTable<Record<string, unknown>>(table, { orderBy: "created_at" }),
+  });
+
+  return (
+    <div>
+      <h3 className="font-display text-lg font-semibold text-foreground mb-4">{label}</h3>
+      <div className="rounded-lg border border-border overflow-auto">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {columns.map((c) => <TableHead key={c} className="capitalize">{c.replace(/_/g, " ")}</TableHead>)}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {items.length === 0 ? (
+              <TableRow><TableCell colSpan={columns.length} className="text-center text-muted-foreground py-8">No entries yet</TableCell></TableRow>
+            ) : (
+              items.map((item, i) => (
+                <TableRow key={i}>
+                  {columns.map((c) => <TableCell key={c} className="max-w-[200px] truncate">{String(item[c] ?? "—")}</TableCell>)}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+}
+
 export default function Admin() {
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -174,59 +198,6 @@ export default function Admin() {
 
   if (checking) return <div className="min-h-screen flex items-center justify-center bg-background text-muted-foreground">Verifying access...</div>;
   if (!isAdmin) return null;
-
-  const drinksColumns = [
-    { key: "name", label: "Name" },
-    { key: "brand", label: "Brand" },
-    { key: "type", label: "Type" },
-    { key: "price", label: "Price", type: "number" },
-    { key: "origin", label: "Origin" },
-    { key: "year_manufactured", label: "Year", type: "number" },
-    { key: "alcohol_content", label: "Alcohol %", type: "number" },
-    { key: "bottle_size", label: "Bottle Size" },
-    { key: "quality", label: "Quality" },
-    { key: "stock_status", label: "Stock Status" },
-    { key: "tasting_notes", label: "Tasting Notes", type: "textarea" },
-    { key: "provenance", label: "Provenance", type: "textarea" },
-  ];
-
-  const diningColumns = [
-    { key: "dish_name", label: "Dish Name" },
-    { key: "chef", label: "Chef" },
-    { key: "cuisine_type", label: "Cuisine" },
-    { key: "price", label: "Price", type: "number" },
-    { key: "ingredients", label: "Ingredients", type: "textarea" },
-    { key: "description", label: "Description", type: "textarea" },
-  ];
-
-  const eventsColumns = [
-    { key: "name", label: "Name" },
-    { key: "type", label: "Type" },
-    { key: "date", label: "Date", type: "date" },
-    { key: "venue_section", label: "Venue" },
-    { key: "description", label: "Description", type: "textarea" },
-    { key: "performers", label: "Performers" },
-    { key: "status", label: "Status" },
-  ];
-
-  const careersColumns = [
-    { key: "title", label: "Title" },
-    { key: "department", label: "Department" },
-    { key: "description", label: "Description", type: "textarea" },
-    { key: "requirements", label: "Requirements", type: "textarea" },
-    { key: "deadline", label: "Deadline", type: "date" },
-  ];
-
-  const servicesColumns = [
-    { key: "name", label: "Name" },
-    { key: "description", label: "Description", type: "textarea" },
-  ];
-
-  const venueColumns = [
-    { key: "name", label: "Name" },
-    { key: "description", label: "Description", type: "textarea" },
-    { key: "capacity", label: "Capacity", type: "number" },
-  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -257,22 +228,46 @@ export default function Admin() {
           </TabsList>
 
           <TabsContent value="drinks" className="mt-6">
-            <CrudModule table="drinks" columns={drinksColumns} label="Drinks" />
+            <CrudModule table="drinks" columns={[
+              { key: "name", label: "Name" }, { key: "brand", label: "Brand" }, { key: "type", label: "Type" },
+              { key: "price", label: "Price", type: "number" }, { key: "origin", label: "Origin" },
+              { key: "year_manufactured", label: "Year", type: "number" }, { key: "alcohol_content", label: "Alcohol %", type: "number" },
+              { key: "bottle_size", label: "Bottle Size" }, { key: "quality", label: "Quality" },
+              { key: "stock_status", label: "Stock Status" }, { key: "tasting_notes", label: "Tasting Notes", type: "textarea" },
+              { key: "provenance", label: "Provenance", type: "textarea" },
+            ]} label="Drinks" />
           </TabsContent>
           <TabsContent value="dining" className="mt-6">
-            <CrudModule table="dining" columns={diningColumns} label="Dining Menu" />
+            <CrudModule table="dining" columns={[
+              { key: "dish_name", label: "Dish Name" }, { key: "chef", label: "Chef" }, { key: "cuisine_type", label: "Cuisine" },
+              { key: "price", label: "Price", type: "number" }, { key: "ingredients", label: "Ingredients", type: "textarea" },
+              { key: "description", label: "Description", type: "textarea" },
+            ]} label="Dining Menu" />
           </TabsContent>
           <TabsContent value="events" className="mt-6">
-            <CrudModule table="events" columns={eventsColumns} label="Events" />
+            <CrudModule table="events" columns={[
+              { key: "name", label: "Name" }, { key: "type", label: "Type" }, { key: "date", label: "Date", type: "date" },
+              { key: "venue_section", label: "Venue" }, { key: "description", label: "Description", type: "textarea" },
+              { key: "performers", label: "Performers" }, { key: "status", label: "Status" },
+            ]} label="Events" />
           </TabsContent>
           <TabsContent value="careers" className="mt-6">
-            <CrudModule table="careers" columns={careersColumns} label="Career Listings" />
+            <CrudModule table="careers" columns={[
+              { key: "title", label: "Title" }, { key: "department", label: "Department" },
+              { key: "description", label: "Description", type: "textarea" }, { key: "requirements", label: "Requirements", type: "textarea" },
+              { key: "deadline", label: "Deadline", type: "date" },
+            ]} label="Career Listings" />
           </TabsContent>
           <TabsContent value="services" className="mt-6">
-            <CrudModule table="services" columns={servicesColumns} label="Services" />
+            <CrudModule table="services" columns={[
+              { key: "name", label: "Name" }, { key: "description", label: "Description", type: "textarea" },
+            ]} label="Services" />
           </TabsContent>
           <TabsContent value="venue" className="mt-6">
-            <CrudModule table="venue_sections" columns={venueColumns} label="Venue Sections" />
+            <CrudModule table="venue_sections" columns={[
+              { key: "name", label: "Name" }, { key: "description", label: "Description", type: "textarea" },
+              { key: "capacity", label: "Capacity", type: "number" },
+            ]} label="Venue Sections" />
           </TabsContent>
           <TabsContent value="reservations" className="mt-6">
             <ReadOnlyTable table="reservations" columns={["user_name", "contact", "date", "time", "section", "type", "status"]} label="Reservations" />
@@ -284,40 +279,6 @@ export default function Admin() {
             <ReadOnlyTable table="contact_submissions" columns={["name", "email", "type", "subject", "message"]} label="Contact Messages" />
           </TabsContent>
         </Tabs>
-      </div>
-    </div>
-  );
-}
-
-// Read-only table for submissions
-function ReadOnlyTable({ table, columns, label }: { table: string; columns: string[]; label: string }) {
-  const { data: items = [] } = useQuery({
-    queryKey: [table],
-    queryFn: () => fetchTable<Record<string, unknown>>(table, { orderBy: "created_at" }),
-  });
-
-  return (
-    <div>
-      <h3 className="font-display text-lg font-semibold text-foreground mb-4">{label}</h3>
-      <div className="rounded-lg border border-border overflow-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              {columns.map((c) => <TableHead key={c} className="capitalize">{c.replace(/_/g, " ")}</TableHead>)}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {items.length === 0 ? (
-              <TableRow><TableCell colSpan={columns.length} className="text-center text-muted-foreground py-8">No entries yet</TableCell></TableRow>
-            ) : (
-              items.map((item, i) => (
-                <TableRow key={i}>
-                  {columns.map((c) => <TableCell key={c} className="max-w-[200px] truncate">{String(item[c] ?? "—")}</TableCell>)}
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
       </div>
     </div>
   );
