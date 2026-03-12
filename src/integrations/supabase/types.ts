@@ -14,16 +14,401 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      applications: {
+        Row: {
+          applicant_name: string
+          career_id: string | null
+          cover_letter: string | null
+          created_at: string
+          email: string
+          id: string
+          phone: string | null
+          resume_url: string | null
+        }
+        Insert: {
+          applicant_name: string
+          career_id?: string | null
+          cover_letter?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          phone?: string | null
+          resume_url?: string | null
+        }
+        Update: {
+          applicant_name?: string
+          career_id?: string | null
+          cover_letter?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          phone?: string | null
+          resume_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "applications_career_id_fkey"
+            columns: ["career_id"]
+            isOneToOne: false
+            referencedRelation: "careers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      careers: {
+        Row: {
+          created_at: string
+          deadline: string | null
+          department: string | null
+          description: string | null
+          id: string
+          requirements: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deadline?: string | null
+          department?: string | null
+          description?: string | null
+          id?: string
+          requirements?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deadline?: string | null
+          department?: string | null
+          description?: string | null
+          id?: string
+          requirements?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contact_submissions: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          subject: string | null
+          type: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          subject?: string | null
+          type?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          subject?: string | null
+          type?: string | null
+        }
+        Relationships: []
+      }
+      dining: {
+        Row: {
+          availability: boolean | null
+          chef: string | null
+          created_at: string
+          cuisine_type: string | null
+          description: string | null
+          dish_name: string
+          id: string
+          images: Json | null
+          ingredients: string | null
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          availability?: boolean | null
+          chef?: string | null
+          created_at?: string
+          cuisine_type?: string | null
+          description?: string | null
+          dish_name: string
+          id?: string
+          images?: Json | null
+          ingredients?: string | null
+          price?: number
+          updated_at?: string
+        }
+        Update: {
+          availability?: boolean | null
+          chef?: string | null
+          created_at?: string
+          cuisine_type?: string | null
+          description?: string | null
+          dish_name?: string
+          id?: string
+          images?: Json | null
+          ingredients?: string | null
+          price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      drinks: {
+        Row: {
+          alcohol_content: number | null
+          bottle_size: string | null
+          brand: string | null
+          created_at: string
+          id: string
+          images: Json | null
+          name: string
+          origin: string | null
+          price: number
+          provenance: string | null
+          quality: string | null
+          stock_status: string | null
+          tasting_notes: string | null
+          type: string | null
+          updated_at: string
+          year_manufactured: number | null
+        }
+        Insert: {
+          alcohol_content?: number | null
+          bottle_size?: string | null
+          brand?: string | null
+          created_at?: string
+          id?: string
+          images?: Json | null
+          name: string
+          origin?: string | null
+          price?: number
+          provenance?: string | null
+          quality?: string | null
+          stock_status?: string | null
+          tasting_notes?: string | null
+          type?: string | null
+          updated_at?: string
+          year_manufactured?: number | null
+        }
+        Update: {
+          alcohol_content?: number | null
+          bottle_size?: string | null
+          brand?: string | null
+          created_at?: string
+          id?: string
+          images?: Json | null
+          name?: string
+          origin?: string | null
+          price?: number
+          provenance?: string | null
+          quality?: string | null
+          stock_status?: string | null
+          tasting_notes?: string | null
+          type?: string | null
+          updated_at?: string
+          year_manufactured?: number | null
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          created_at: string
+          date: string | null
+          description: string | null
+          id: string
+          images: Json | null
+          name: string
+          performers: string | null
+          status: string | null
+          type: string | null
+          updated_at: string
+          venue_section: string | null
+        }
+        Insert: {
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          id?: string
+          images?: Json | null
+          name: string
+          performers?: string | null
+          status?: string | null
+          type?: string | null
+          updated_at?: string
+          venue_section?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          id?: string
+          images?: Json | null
+          name?: string
+          performers?: string | null
+          status?: string | null
+          type?: string | null
+          updated_at?: string
+          venue_section?: string | null
+        }
+        Relationships: []
+      }
+      media: {
+        Row: {
+          created_at: string
+          file_path: string
+          id: string
+          linked_to: string | null
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          file_path: string
+          id?: string
+          linked_to?: string | null
+          type: string
+        }
+        Update: {
+          created_at?: string
+          file_path?: string
+          id?: string
+          linked_to?: string | null
+          type?: string
+        }
+        Relationships: []
+      }
+      reservations: {
+        Row: {
+          contact: string
+          created_at: string
+          date: string
+          id: string
+          section: string | null
+          status: string | null
+          time: string
+          type: string | null
+          user_name: string
+        }
+        Insert: {
+          contact: string
+          created_at?: string
+          date: string
+          id?: string
+          section?: string | null
+          status?: string | null
+          time: string
+          type?: string | null
+          user_name: string
+        }
+        Update: {
+          contact?: string
+          created_at?: string
+          date?: string
+          id?: string
+          section?: string | null
+          status?: string | null
+          time?: string
+          type?: string | null
+          user_name?: string
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          images: Json | null
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: Json | null
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: Json | null
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      venue_sections: {
+        Row: {
+          capacity: number | null
+          created_at: string
+          description: string | null
+          id: string
+          images: Json | null
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          capacity?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: Json | null
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          capacity?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: Json | null
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +535,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
