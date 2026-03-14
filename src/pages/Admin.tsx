@@ -271,6 +271,9 @@ export default function Admin() {
               { key: "capacity", label: "Capacity", type: "number" },
             ]} label="Venue Sections" />
           </TabsContent>
+          <TabsContent value="media" className="mt-6">
+            <MediaManager />
+          </TabsContent>
           <TabsContent value="reservations" className="mt-6">
             <ReadOnlyTable table="reservations" columns={["user_name", "contact", "date", "time", "section", "type", "status"]} label="Reservations" />
           </TabsContent>
