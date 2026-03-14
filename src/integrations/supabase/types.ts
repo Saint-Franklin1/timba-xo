@@ -160,6 +160,121 @@ export type Database = {
         }
         Relationships: []
       }
+      dining_media: {
+        Row: {
+          chef: string | null
+          created_at: string
+          cuisine_type: string | null
+          description: string | null
+          dish_name: string | null
+          id: string
+          ingredients: string | null
+          media_id: string | null
+          price: number | null
+        }
+        Insert: {
+          chef?: string | null
+          created_at?: string
+          cuisine_type?: string | null
+          description?: string | null
+          dish_name?: string | null
+          id?: string
+          ingredients?: string | null
+          media_id?: string | null
+          price?: number | null
+        }
+        Update: {
+          chef?: string | null
+          created_at?: string
+          cuisine_type?: string | null
+          description?: string | null
+          dish_name?: string | null
+          id?: string
+          ingredients?: string | null
+          media_id?: string | null
+          price?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dining_media_media_id_fkey"
+            columns: ["media_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      drink_details: {
+        Row: {
+          age: string | null
+          alcohol_content: number | null
+          bottle_size: string | null
+          brand: string | null
+          color: string | null
+          created_at: string
+          distillery: string | null
+          drink_name: string | null
+          id: string
+          manufacturer: string | null
+          media_id: string
+          origin_country: string | null
+          price: number | null
+          provenance_description: string | null
+          quality: string | null
+          taste_notes: string | null
+          type: string | null
+          year_manufactured: number | null
+        }
+        Insert: {
+          age?: string | null
+          alcohol_content?: number | null
+          bottle_size?: string | null
+          brand?: string | null
+          color?: string | null
+          created_at?: string
+          distillery?: string | null
+          drink_name?: string | null
+          id?: string
+          manufacturer?: string | null
+          media_id: string
+          origin_country?: string | null
+          price?: number | null
+          provenance_description?: string | null
+          quality?: string | null
+          taste_notes?: string | null
+          type?: string | null
+          year_manufactured?: number | null
+        }
+        Update: {
+          age?: string | null
+          alcohol_content?: number | null
+          bottle_size?: string | null
+          brand?: string | null
+          color?: string | null
+          created_at?: string
+          distillery?: string | null
+          drink_name?: string | null
+          id?: string
+          manufacturer?: string | null
+          media_id?: string
+          origin_country?: string | null
+          price?: number | null
+          provenance_description?: string | null
+          quality?: string | null
+          taste_notes?: string | null
+          type?: string | null
+          year_manufactured?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drink_details_media_id_fkey"
+            columns: ["media_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       drinks: {
         Row: {
           alcohol_content: number | null
@@ -216,6 +331,50 @@ export type Database = {
           year_manufactured?: number | null
         }
         Relationships: []
+      }
+      event_media: {
+        Row: {
+          created_at: string
+          description: string | null
+          event_date: string | null
+          event_name: string
+          gallery_media_ids: Json | null
+          id: string
+          poster_media_id: string | null
+          venue_section: string | null
+          video_media_ids: Json | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          event_date?: string | null
+          event_name: string
+          gallery_media_ids?: Json | null
+          id?: string
+          poster_media_id?: string | null
+          venue_section?: string | null
+          video_media_ids?: Json | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          event_date?: string | null
+          event_name?: string
+          gallery_media_ids?: Json | null
+          id?: string
+          poster_media_id?: string | null
+          venue_section?: string | null
+          video_media_ids?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_media_poster_media_id_fkey"
+            columns: ["poster_media_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       events: {
         Row: {
@@ -280,6 +439,57 @@ export type Database = {
           id?: string
           linked_to?: string | null
           type?: string
+        }
+        Relationships: []
+      }
+      media_assets: {
+        Row: {
+          category: string
+          description: string | null
+          file_format: string | null
+          file_size: number | null
+          id: string
+          image_url: string | null
+          is_featured: boolean
+          is_hidden: boolean
+          storage_bucket: string
+          storage_path: string | null
+          title: string | null
+          uploaded_at: string
+          uploaded_by: string | null
+          video_url: string | null
+        }
+        Insert: {
+          category: string
+          description?: string | null
+          file_format?: string | null
+          file_size?: number | null
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean
+          is_hidden?: boolean
+          storage_bucket: string
+          storage_path?: string | null
+          title?: string | null
+          uploaded_at?: string
+          uploaded_by?: string | null
+          video_url?: string | null
+        }
+        Update: {
+          category?: string
+          description?: string | null
+          file_format?: string | null
+          file_size?: number | null
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean
+          is_hidden?: boolean
+          storage_bucket?: string
+          storage_path?: string | null
+          title?: string | null
+          uploaded_at?: string
+          uploaded_by?: string | null
+          video_url?: string | null
         }
         Relationships: []
       }
@@ -363,6 +573,41 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      venue_media: {
+        Row: {
+          capacity: number | null
+          created_at: string
+          description: string | null
+          id: string
+          media_id: string | null
+          venue_section_name: string | null
+        }
+        Insert: {
+          capacity?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          media_id?: string | null
+          venue_section_name?: string | null
+        }
+        Update: {
+          capacity?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          media_id?: string | null
+          venue_section_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_media_media_id_fkey"
+            columns: ["media_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       venue_sections: {
         Row: {
