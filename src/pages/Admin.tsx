@@ -9,9 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Wine, UtensilsCrossed, Calendar, Briefcase, Building2, LogOut, Plus, Trash2, Edit } from "lucide-react";
+import { Wine, UtensilsCrossed, Calendar, Briefcase, Building2, LogOut, Plus, Trash2, Edit, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import MediaManager from "@/components/admin/MediaManager";
 
 function CrudModule({ table, columns, label }: { table: string; columns: { key: string; label: string; type?: string }[]; label: string }) {
   const queryClient = useQueryClient();
@@ -222,6 +223,7 @@ export default function Admin() {
             <TabsTrigger value="careers" className="gap-1"><Briefcase className="h-3.5 w-3.5" /> Careers</TabsTrigger>
             <TabsTrigger value="services">Services</TabsTrigger>
             <TabsTrigger value="venue" className="gap-1"><Building2 className="h-3.5 w-3.5" /> Venue</TabsTrigger>
+            <TabsTrigger value="media" className="gap-1"><ImageIcon className="h-3.5 w-3.5" /> Media</TabsTrigger>
             <TabsTrigger value="reservations">Reservations</TabsTrigger>
             <TabsTrigger value="applications">Applications</TabsTrigger>
             <TabsTrigger value="contacts">Messages</TabsTrigger>
@@ -268,6 +270,9 @@ export default function Admin() {
               { key: "name", label: "Name" }, { key: "description", label: "Description", type: "textarea" },
               { key: "capacity", label: "Capacity", type: "number" },
             ]} label="Venue Sections" />
+          </TabsContent>
+          <TabsContent value="media" className="mt-6">
+            <MediaManager />
           </TabsContent>
           <TabsContent value="reservations" className="mt-6">
             <ReadOnlyTable table="reservations" columns={["user_name", "contact", "date", "time", "section", "type", "status"]} label="Reservations" />
