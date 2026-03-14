@@ -12,6 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Wine, UtensilsCrossed, Calendar, Briefcase, Building2, LogOut, Plus, Trash2, Edit, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import MediaManager from "@/components/admin/MediaManager";
 
 function CrudModule({ table, columns, label }: { table: string; columns: { key: string; label: string; type?: string }[]; label: string }) {
   const queryClient = useQueryClient();
