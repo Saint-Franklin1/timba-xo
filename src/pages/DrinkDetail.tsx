@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { fetchById } from "@/lib/supabase-helpers";
 import { Button } from "@/components/ui/button";
 import { Wine, ArrowLeft } from "lucide-react";
+import DrinkBookingForm from "@/components/DrinkBookingForm";
 
 interface Drink {
   id: string;
