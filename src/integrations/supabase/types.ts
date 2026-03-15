@@ -204,6 +204,50 @@ export type Database = {
           },
         ]
       }
+      drink_bookings: {
+        Row: {
+          created_at: string
+          customer_name: string
+          drink_id: string | null
+          drink_name: string
+          email: string
+          id: string
+          phone: string | null
+          reservation_date: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          customer_name: string
+          drink_id?: string | null
+          drink_name: string
+          email: string
+          id?: string
+          phone?: string | null
+          reservation_date: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          customer_name?: string
+          drink_id?: string | null
+          drink_name?: string
+          email?: string
+          id?: string
+          phone?: string | null
+          reservation_date?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drink_bookings_drink_id_fkey"
+            columns: ["drink_id"]
+            isOneToOne: false
+            referencedRelation: "drinks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       drink_details: {
         Row: {
           age: string | null
