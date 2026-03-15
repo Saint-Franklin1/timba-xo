@@ -90,9 +90,18 @@ export default function DrinkDetail() {
               )}
 
               <div className="flex gap-4 mt-8">
+                <DrinkBookingForm
+                  drinkId={drink.id}
+                  drinkName={drink.name}
+                  trigger={
+                    <Button size="lg" className="bg-gradient-gold text-primary-foreground hover:opacity-90 gap-2">
+                      <Wine className="h-4 w-4" /> Reserve This Drink
+                    </Button>
+                  }
+                />
                 <Link to="/reservations">
-                  <Button size="lg" className="bg-gradient-gold text-primary-foreground hover:opacity-90">
-                    Reserve in VIP
+                  <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10">
+                    Reserve Table
                   </Button>
                 </Link>
               </div>

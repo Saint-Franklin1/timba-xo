@@ -9,10 +9,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Wine, UtensilsCrossed, Calendar, Briefcase, Building2, LogOut, Plus, Trash2, Edit, Image as ImageIcon } from "lucide-react";
+import { Wine, UtensilsCrossed, Calendar, Briefcase, Building2, LogOut, Plus, Trash2, Edit, Image as ImageIcon, LayoutDashboard, BookOpen, MessageSquare, Settings } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import MediaManager from "@/components/admin/MediaManager";
+import DashboardOverview from "@/components/admin/DashboardOverview";
+import BookingsManager from "@/components/admin/BookingsManager";
 
 function CrudModule({ table, columns, label }: { table: string; columns: { key: string; label: string; type?: string }[]; label: string }) {
   const queryClient = useQueryClient();
@@ -215,8 +217,9 @@ export default function Admin() {
       </header>
 
       <div className="container mx-auto px-4 py-6">
-        <Tabs defaultValue="drinks" className="w-full">
+        <Tabs defaultValue="overview" className="w-full">
           <TabsList className="bg-card border border-border w-full flex flex-wrap h-auto gap-1 p-1">
+            <TabsTrigger value="overview" className="gap-1"><LayoutDashboard className="h-3.5 w-3.5" /> Overview</TabsTrigger>
             <TabsTrigger value="drinks" className="gap-1"><Wine className="h-3.5 w-3.5" /> Drinks</TabsTrigger>
             <TabsTrigger value="dining" className="gap-1"><UtensilsCrossed className="h-3.5 w-3.5" /> Dining</TabsTrigger>
             <TabsTrigger value="events" className="gap-1"><Calendar className="h-3.5 w-3.5" /> Events</TabsTrigger>
@@ -224,11 +227,15 @@ export default function Admin() {
             <TabsTrigger value="services">Services</TabsTrigger>
             <TabsTrigger value="venue" className="gap-1"><Building2 className="h-3.5 w-3.5" /> Venue</TabsTrigger>
             <TabsTrigger value="media" className="gap-1"><ImageIcon className="h-3.5 w-3.5" /> Media</TabsTrigger>
+            <TabsTrigger value="bookings" className="gap-1"><BookOpen className="h-3.5 w-3.5" /> Bookings</TabsTrigger>
             <TabsTrigger value="reservations">Reservations</TabsTrigger>
             <TabsTrigger value="applications">Applications</TabsTrigger>
-            <TabsTrigger value="contacts">Messages</TabsTrigger>
+            <TabsTrigger value="contacts" className="gap-1"><MessageSquare className="h-3.5 w-3.5" /> Messages</TabsTrigger>
           </TabsList>
 
+          <TabsContent value="overview" className="mt-6">
+            <DashboardOverview />
+          </TabsContent>
           <TabsContent value="drinks" className="mt-6">
             <CrudModule table="drinks" columns={[
               { key: "name", label: "Name" }, { key: "brand", label: "Brand" }, { key: "type", label: "Type" },
@@ -273,6 +280,9 @@ export default function Admin() {
           </TabsContent>
           <TabsContent value="media" className="mt-6">
             <MediaManager />
+          </TabsContent>
+          <TabsContent value="bookings" className="mt-6">
+            <BookingsManager />
           </TabsContent>
           <TabsContent value="reservations" className="mt-6">
             <ReadOnlyTable table="reservations" columns={["user_name", "contact", "date", "time", "section", "type", "status"]} label="Reservations" />
