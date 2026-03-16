@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import MediaManager from "@/components/admin/MediaManager";
 import DashboardOverview from "@/components/admin/DashboardOverview";
 import BookingsManager from "@/components/admin/BookingsManager";
+import SecuritySettings from "@/components/admin/SecuritySettings";
 
 function CrudModule({ table, columns, label }: { table: string; columns: { key: string; label: string; type?: string }[]; label: string }) {
   const queryClient = useQueryClient();
