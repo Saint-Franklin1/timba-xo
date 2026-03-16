@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import MediaManager from "@/components/admin/MediaManager";
 import DashboardOverview from "@/components/admin/DashboardOverview";
 import BookingsManager from "@/components/admin/BookingsManager";
+import SecuritySettings from "@/components/admin/SecuritySettings";
 
 function CrudModule({ table, columns, label }: { table: string; columns: { key: string; label: string; type?: string }[]; label: string }) {
   const queryClient = useQueryClient();
@@ -231,6 +232,7 @@ export default function Admin() {
             <TabsTrigger value="reservations">Reservations</TabsTrigger>
             <TabsTrigger value="applications">Applications</TabsTrigger>
             <TabsTrigger value="contacts" className="gap-1"><MessageSquare className="h-3.5 w-3.5" /> Messages</TabsTrigger>
+            <TabsTrigger value="settings" className="gap-1"><Settings className="h-3.5 w-3.5" /> Settings</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="mt-6">
@@ -292,6 +294,9 @@ export default function Admin() {
           </TabsContent>
           <TabsContent value="contacts" className="mt-6">
             <ReadOnlyTable table="contact_submissions" columns={["name", "email", "type", "subject", "message"]} label="Contact Messages" />
+          </TabsContent>
+          <TabsContent value="settings" className="mt-6">
+            <SecuritySettings />
           </TabsContent>
         </Tabs>
       </div>
