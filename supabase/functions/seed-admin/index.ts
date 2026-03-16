@@ -17,23 +17,32 @@ Deno.serve(async (req) => {
       { auth: { autoRefreshToken: false, persistSession: false } }
     );
 
-    // Create admin user
-    const { data: user, error: createError } = await supabaseAdmin.auth.admin.createUser({
-      email: "oscarsudi@yahoo.com",
-      password: "Timba.XO@1",
-      email_confirm: true,
-    });
+    const targetEmail = "oscarsudi@yahoo.com";
+    const targetPassword = "Timba.X0@.";
 
-    if (createError && !createError.message.includes("already")) {
-      throw createError;
-    }
+    // Try to find existing user first
+    const { data: users } = await supabaseAdmin.auth.admin.listUsers();
+    const existing = users?.users?.find((u) => u.email === targetEmail);
 
-    // Get user ID
-    let userId = user?.user?.id;
-    if (!userId) {
-      const { data: users } = await supabaseAdmin.auth.admin.listUsers();
-      const existing = users?.users?.find((u) => u.email === "oscarsudi@yahoo.com");
-      userId = existing?.id;
+    let userId: string | undefined;
+
+    if (existing) {
+      // Update existing user: reset password and confirm email
+      const { error: updateErr } = await supabaseAdmin.auth.admin.updateUserById(existing.id, {
+        password: targetPassword,
+        email_confirm: true,
+      });
+      if (updateErr) throw updateErr;
+      userId = existing.id;
+    } else {
+      // Create new admin user
+      const { data: user, error: createError } = await supabaseAdmin.auth.admin.createUser({
+        email: targetEmail,
+        password: targetPassword,
+        email_confirm: true,
+      });
+      if (createError) throw createError;
+      userId = user?.user?.id;
     }
 
     if (!userId) throw new Error("Could not find or create admin user");
