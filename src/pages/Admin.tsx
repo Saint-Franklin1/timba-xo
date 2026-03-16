@@ -18,10 +18,19 @@ import BookingsManager from "@/components/admin/BookingsManager";
 import SecuritySettings from "@/components/admin/SecuritySettings";
 import ImageUploader from "@/components/admin/ImageUploader";
 
+const TABLE_BUCKET_MAP: Record<string, string> = {
+  drinks: "drinks_images",
+  dining: "dining_images",
+  events: "event_gallery",
+  services: "media",
+  venue_sections: "venue_images",
+};
+
 function CrudModule({ table, columns, label }: { table: string; columns: { key: string; label: string; type?: string }[]; label: string }) {
   const queryClient = useQueryClient();
   const [editItem, setEditItem] = useState<Record<string, unknown> | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const bucket = TABLE_BUCKET_MAP[table];
 
   const { data: items = [] } = useQuery({
     queryKey: [table],
