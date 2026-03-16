@@ -111,6 +111,27 @@ function CrudModule({ table, columns, label }: { table: string; columns: { key: 
                   )}
                 </div>
               ))}
+              {bucket && (
+                <div>
+                  <Label className="text-xs">Images / Videos</Label>
+                  <ImageUploader
+                    bucket={bucket}
+                    existingFiles={
+                      Array.isArray(editItem?.images)
+                        ? (editItem.images as any[]).map((f: any) => ({
+                            url: f.url || "",
+                            path: f.path || "",
+                            isHD: f.isHD || false,
+                            type: f.type || "image",
+                          }))
+                        : []
+                    }
+                    onChange={(files) =>
+                      setEditItem({ ...editItem!, images: files })
+                    }
+                  />
+                </div>
+              )}
               <Button className="w-full bg-gradient-gold text-primary-foreground hover:opacity-90" onClick={() => editItem && upsertMutation.mutate(editItem)} disabled={upsertMutation.isPending}>
                 {upsertMutation.isPending ? "Saving..." : "Save"}
               </Button>
