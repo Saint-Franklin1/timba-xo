@@ -16,11 +16,21 @@ import MediaManager from "@/components/admin/MediaManager";
 import DashboardOverview from "@/components/admin/DashboardOverview";
 import BookingsManager from "@/components/admin/BookingsManager";
 import SecuritySettings from "@/components/admin/SecuritySettings";
+import ImageUploader from "@/components/admin/ImageUploader";
+
+const TABLE_BUCKET_MAP: Record<string, string> = {
+  drinks: "drinks_images",
+  dining: "dining_images",
+  events: "event_gallery",
+  services: "media",
+  venue_sections: "venue_images",
+};
 
 function CrudModule({ table, columns, label }: { table: string; columns: { key: string; label: string; type?: string }[]; label: string }) {
   const queryClient = useQueryClient();
   const [editItem, setEditItem] = useState<Record<string, unknown> | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const bucket = TABLE_BUCKET_MAP[table];
 
   const { data: items = [] } = useQuery({
     queryKey: [table],
@@ -101,6 +111,27 @@ function CrudModule({ table, columns, label }: { table: string; columns: { key: 
                   )}
                 </div>
               ))}
+              {bucket && (
+                <div>
+                  <Label className="text-xs">Images / Videos</Label>
+                  <ImageUploader
+                    bucket={bucket}
+                    existingFiles={
+                      Array.isArray(editItem?.images)
+                        ? (editItem.images as any[]).map((f: any) => ({
+                            url: f.url || "",
+                            path: f.path || "",
+                            isHD: f.isHD || false,
+                            type: f.type || "image",
+                          }))
+                        : []
+                    }
+                    onChange={(files) =>
+                      setEditItem({ ...editItem!, images: files })
+                    }
+                  />
+                </div>
+              )}
               <Button className="w-full bg-gradient-gold text-primary-foreground hover:opacity-90" onClick={() => editItem && upsertMutation.mutate(editItem)} disabled={upsertMutation.isPending}>
                 {upsertMutation.isPending ? "Saving..." : "Save"}
               </Button>
