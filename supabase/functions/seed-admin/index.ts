@@ -17,44 +17,47 @@ Deno.serve(async (req) => {
       { auth: { autoRefreshToken: false, persistSession: false } }
     );
 
-    const targetEmail = "oscarsudi@yahoo.com";
-    const targetPassword = "Timba.X0@.";
+    const admins = [
+      { email: "oscarsudi@yahoo.com", password: "Timba.X0@." },
+      { email: "jamielockins1@gmail.com", password: "Timba.X0@." },
+    ];
 
-    // Try to find existing user first
-    const { data: users } = await supabaseAdmin.auth.admin.listUsers();
-    const existing = users?.users?.find((u) => u.email === targetEmail);
+    const results = [];
 
-    let userId: string | undefined;
+    for (const admin of admins) {
+      const { data: userList } = await supabaseAdmin.auth.admin.listUsers();
+      const existing = userList?.users?.find((u) => u.email === admin.email);
 
-    if (existing) {
-      // Update existing user: reset password and confirm email
-      const { error: updateErr } = await supabaseAdmin.auth.admin.updateUserById(existing.id, {
-        password: targetPassword,
-        email_confirm: true,
-      });
-      if (updateErr) throw updateErr;
-      userId = existing.id;
-    } else {
-      // Create new admin user
-      const { data: user, error: createError } = await supabaseAdmin.auth.admin.createUser({
-        email: targetEmail,
-        password: targetPassword,
-        email_confirm: true,
-      });
-      if (createError) throw createError;
-      userId = user?.user?.id;
+      let userId: string | undefined;
+
+      if (existing) {
+        const { error: updateErr } = await supabaseAdmin.auth.admin.updateUserById(existing.id, {
+          password: admin.password,
+          email_confirm: true,
+        });
+        if (updateErr) throw updateErr;
+        userId = existing.id;
+      } else {
+        const { data: user, error: createError } = await supabaseAdmin.auth.admin.createUser({
+          email: admin.email,
+          password: admin.password,
+          email_confirm: true,
+        });
+        if (createError) throw createError;
+        userId = user?.user?.id;
+      }
+
+      if (!userId) throw new Error("Could not find or create admin: " + admin.email);
+
+      const { error: roleError } = await supabaseAdmin
+        .from("user_roles")
+        .upsert({ user_id: userId, role: "admin" }, { onConflict: "user_id,role" });
+
+      if (roleError) throw roleError;
+      results.push({ email: admin.email, userId });
     }
 
-    if (!userId) throw new Error("Could not find or create admin user");
-
-    // Assign admin role
-    const { error: roleError } = await supabaseAdmin
-      .from("user_roles")
-      .upsert({ user_id: userId, role: "admin" }, { onConflict: "user_id,role" });
-
-    if (roleError) throw roleError;
-
-    return new Response(JSON.stringify({ success: true, userId }), {
+    return new Response(JSON.stringify({ success: true, results }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {
