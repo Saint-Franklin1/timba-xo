@@ -295,6 +295,9 @@ export default function Admin() {
           <TabsContent value="contacts" className="mt-6">
             <ReadOnlyTable table="contact_submissions" columns={["name", "email", "type", "subject", "message"]} label="Contact Messages" />
           </TabsContent>
+          <TabsContent value="settings" className="mt-6">
+            <SecuritySettings />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
