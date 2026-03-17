@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Wine, Phone, Mail, Instagram, Facebook, Twitter, ExternalLink } from "lucide-react";
+import { Wine, Phone, Mail, Instagram, Facebook, Twitter, ExternalLink, Github, Code } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -53,7 +53,7 @@ export default function Footer() {
   return (
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Column 1 — Identity */}
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -170,6 +170,49 @@ export default function Footer() {
                   <ExternalLink className="h-3 w-3 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
               ))}
+            </div>
+          </div>
+
+          {/* Column 5 — Developer */}
+          <div>
+            <h4 className="font-display text-lg font-semibold text-foreground mb-4">
+              Developer
+            </h4>
+            <div className="flex flex-col gap-4 text-sm text-muted-foreground">
+              <a
+                href="https://github.com/Saint-Franklin1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2 hover:text-primary transition-colors"
+              >
+                <Github className="h-4 w-4 text-primary flex-shrink-0" />
+                GitHub
+                <ExternalLink className="h-3 w-3 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+              <a
+                href="https://franklineportfolio.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2 hover:text-primary transition-colors"
+              >
+                <Code className="h-4 w-4 text-primary flex-shrink-0" />
+                Portfolio
+                <ExternalLink className="h-3 w-3 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+              <a
+                href="mailto:franklinekimtai12@gmail.com"
+                className="flex items-center gap-2 hover:text-primary transition-colors"
+              >
+                <Mail className="h-4 w-4 text-primary flex-shrink-0" />
+                franklinekimtai12@gmail.com
+              </a>
+              <a
+                href="tel:+254768711528"
+                className="flex items-center gap-2 hover:text-primary transition-colors"
+              >
+                <Phone className="h-4 w-4 text-primary flex-shrink-0" />
+                +254 768 711 528
+              </a>
             </div>
           </div>
         </div>
