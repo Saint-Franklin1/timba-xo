@@ -4,6 +4,7 @@ import { fetchTable } from "@/lib/supabase-helpers";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, ArrowRight } from "lucide-react";
+import { getImageUrl } from "@/lib/image-utils";
 import { format } from "date-fns";
 
 interface Event {
