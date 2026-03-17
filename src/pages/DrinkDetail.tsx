@@ -55,8 +55,8 @@ export default function DrinkDetail() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="aspect-square rounded-2xl bg-secondary/50 border border-border flex items-center justify-center overflow-hidden">
-              {drink.images && (drink.images as string[]).length > 0 ? (
-                <img src={(drink.images as string[])[0]} alt={drink.name} className="w-full h-full object-cover" />
+              {getImageUrl(drink.images) ? (
+                <img src={getImageUrl(drink.images)!} alt={drink.name} className="w-full h-full object-cover" loading="lazy" />
               ) : (
                 <Wine className="h-24 w-24 text-muted-foreground/30" />
               )}

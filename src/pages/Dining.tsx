@@ -42,8 +42,8 @@ export default function Dining() {
               {dishes.map((dish) => (
                 <Card key={dish.id} className="bg-card border-border hover:border-primary/40 transition-all overflow-hidden">
                   <div className="aspect-video bg-secondary/50 flex items-center justify-center">
-                    {dish.images && (dish.images as string[]).length > 0 ? (
-                      <img src={(dish.images as string[])[0]} alt={dish.dish_name} className="w-full h-full object-cover" />
+                    {getImageUrl(dish.images) ? (
+                      <img src={getImageUrl(dish.images)!} alt={dish.dish_name} className="w-full h-full object-cover" loading="lazy" />
                     ) : (
                       <UtensilsCrossed className="h-12 w-12 text-muted-foreground/30" />
                     )}
