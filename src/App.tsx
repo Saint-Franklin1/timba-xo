@@ -1,26 +1,46 @@
+import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import About from "./pages/About";
-import Services from "./pages/Services";
-import Drinks from "./pages/Drinks";
-import DrinkDetail from "./pages/DrinkDetail";
-import Dining from "./pages/Dining";
-import Events from "./pages/Events";
-import Venue from "./pages/Venue";
-import Careers from "./pages/Careers";
-import Contact from "./pages/Contact";
-import Reservations from "./pages/Reservations";
-import Awards from "./pages/Awards";
-import Impact from "./pages/Impact";
-import AdminLogin from "./pages/AdminLogin";
-import Admin from "./pages/Admin";
 
-const queryClient = new QueryClient();
+// Lazy-loaded routes for code splitting
+const About = lazy(() => import("./pages/About"));
+const Services = lazy(() => import("./pages/Services"));
+const Drinks = lazy(() => import("./pages/Drinks"));
+const DrinkDetail = lazy(() => import("./pages/DrinkDetail"));
+const Dining = lazy(() => import("./pages/Dining"));
+const Events = lazy(() => import("./pages/Events"));
+const Venue = lazy(() => import("./pages/Venue"));
+const Careers = lazy(() => import("./pages/Careers"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Reservations = lazy(() => import("./pages/Reservations"));
+const Awards = lazy(() => import("./pages/Awards"));
+const Impact = lazy(() => import("./pages/Impact"));
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const Admin = lazy(() => import("./pages/Admin"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 min stale-while-revalidate
+      gcTime: 10 * 60 * 1000, // 10 min garbage collection
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
+
+function PageLoader() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -28,24 +48,26 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/drinks" element={<Drinks />} />
-          <Route path="/drinks/:id" element={<DrinkDetail />} />
-          <Route path="/dining" element={<Dining />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/venue" element={<Venue />} />
-          <Route path="/careers" element={<Careers />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/reservations" element={<Reservations />} />
-          <Route path="/awards" element={<Awards />} />
-          <Route path="/impact" element={<Impact />} />
-          <Route path="/admin-login" element={<AdminLogin />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/drinks" element={<Drinks />} />
+            <Route path="/drinks/:id" element={<DrinkDetail />} />
+            <Route path="/dining" element={<Dining />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/venue" element={<Venue />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/reservations" element={<Reservations />} />
+            <Route path="/awards" element={<Awards />} />
+            <Route path="/impact" element={<Impact />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

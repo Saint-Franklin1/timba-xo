@@ -155,7 +155,7 @@ export default function Footer() {
             <div className="flex flex-col gap-4">
               {socials.map((s) => (
                 <a
-                  key={s.handle}
+                  key={s.key}
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
