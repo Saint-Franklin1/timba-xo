@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Wine, Phone, Mail, Instagram, Facebook, Twitter, ExternalLink } from "lucide-react";
+import { Wine, Phone, Mail, Instagram, Facebook, Twitter, ExternalLink, Github, Code } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
