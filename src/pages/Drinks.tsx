@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Link } from "react-router-dom";
 import { Wine, Search } from "lucide-react";
 import { useState, useMemo } from "react";
+import { getImageUrl } from "@/lib/image-utils";
 
 interface Drink {
   id: string;
