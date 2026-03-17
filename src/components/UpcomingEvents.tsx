@@ -4,6 +4,7 @@ import { fetchTable } from "@/lib/supabase-helpers";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, ArrowRight } from "lucide-react";
+import { getImageUrl } from "@/lib/image-utils";
 import { format } from "date-fns";
 
 interface Event {
@@ -39,8 +40,8 @@ export default function UpcomingEvents() {
             {events.map((event) => (
               <Card key={event.id} className="bg-card border-border hover:border-primary/40 transition-all group overflow-hidden">
                 <div className="aspect-video bg-secondary/50 flex items-center justify-center overflow-hidden">
-                  {event.images && (event.images as string[]).length > 0 ? (
-                    <img src={(event.images as string[])[0]} alt={event.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                  {getImageUrl(event.images) ? (
+                    <img src={getImageUrl(event.images)!} alt={event.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />
                   ) : (
                     <Calendar className="h-12 w-12 text-muted-foreground/30" />
                   )}

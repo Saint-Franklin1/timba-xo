@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Building2, Users } from "lucide-react";
+import { getImageUrl } from "@/lib/image-utils";
 
 interface VenueSection {
   id: string;
@@ -43,8 +44,8 @@ export default function Venue() {
             {displaySections.map((section, i) => (
               <Card key={i} className="bg-card border-border hover:border-primary/40 transition-all overflow-hidden">
                 <div className="aspect-video bg-secondary/50 flex items-center justify-center">
-                  {'images' in section && section.images && (section.images as string[]).length > 0 ? (
-                    <img src={(section.images as string[])[0]} alt={section.name} className="w-full h-full object-cover" />
+                  {'images' in section && getImageUrl(section.images) ? (
+                    <img src={getImageUrl(section.images)!} alt={section.name} className="w-full h-full object-cover" loading="lazy" />
                   ) : (
                     <Building2 className="h-12 w-12 text-muted-foreground/30" />
                   )}

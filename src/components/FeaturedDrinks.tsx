@@ -4,6 +4,7 @@ import { fetchTable } from "@/lib/supabase-helpers";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Wine, ArrowRight } from "lucide-react";
+import { getImageUrl } from "@/lib/image-utils";
 
 interface Drink {
   id: string;
@@ -38,8 +39,8 @@ export default function FeaturedDrinks() {
               <Link key={drink.id} to={`/drinks/${drink.id}`}>
                 <Card className="bg-card border-border hover:border-primary/40 transition-all group cursor-pointer h-full">
                   <div className="aspect-square bg-secondary/50 rounded-t-lg flex items-center justify-center overflow-hidden">
-                    {drink.images && (drink.images as string[]).length > 0 ? (
-                      <img src={(drink.images as string[])[0]} alt={drink.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                    {getImageUrl(drink.images) ? (
+                      <img src={getImageUrl(drink.images)!} alt={drink.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />
                     ) : (
                       <Wine className="h-16 w-16 text-muted-foreground/30" />
                     )}

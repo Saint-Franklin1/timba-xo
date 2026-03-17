@@ -22,18 +22,21 @@ const socials = [
     label: "Timba-XO",
     handle: "@XOTimba",
     href: "https://facebook.com/XOTimba",
+    key: "facebook",
   },
   {
     icon: Instagram,
     label: "TIMBA XO",
     handle: "@timbaxo",
     href: "https://instagram.com/timbaxo",
+    key: "instagram",
   },
   {
     icon: Twitter,
     label: "Twitter",
     handle: "@XOTimba",
     href: "https://twitter.com/XOTimba",
+    key: "twitter",
   },
 ];
 
@@ -152,7 +155,7 @@ export default function Footer() {
             <div className="flex flex-col gap-4">
               {socials.map((s) => (
                 <a
-                  key={s.handle}
+                  key={s.key}
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
