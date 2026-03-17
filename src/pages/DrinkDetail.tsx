@@ -5,6 +5,7 @@ import { fetchById } from "@/lib/supabase-helpers";
 import { Button } from "@/components/ui/button";
 import { Wine, ArrowLeft } from "lucide-react";
 import DrinkBookingForm from "@/components/DrinkBookingForm";
+import { getImageUrl } from "@/lib/image-utils";
 
 interface Drink {
   id: string;
