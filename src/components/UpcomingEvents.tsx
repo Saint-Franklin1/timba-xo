@@ -22,14 +22,12 @@ export default function UpcomingEvents() {
   const { data: events = [] } = useQuery({
     queryKey: ["events", "upcoming"],
     queryFn: async () => {
-      const all = await fetchTable<Event>("events", { limit: 6, orderBy: "date", ascending: true });
-      // Show events with future dates or no date set, excluding explicitly "past" or "cancelled"
+      const all = await fetchTable<Event>("events", { limit: 10, orderBy: "date", ascending: false });
+      // Show all events excluding explicitly "cancelled", most recent first
       return all
         .filter((e) => {
-          if (!e.date) return true;
           const status = (e.status || "").toLowerCase();
-          if (status === "past" || status === "cancelled") return false;
-          return new Date(e.date) >= new Date(new Date().toDateString());
+          return status !== "cancelled";
         })
         .slice(0, 3);
     },

@@ -130,11 +130,11 @@ export default function ImageUploader({
 
         if (uploadError) throw uploadError;
 
-        const { data: signedData } = await supabase.storage
+        const { data: urlData } = supabase.storage
           .from(bucket)
-          .createSignedUrl(path, 60 * 60 * 24 * 365);
+          .getPublicUrl(path);
 
-        const url = signedData?.signedUrl || "";
+        const url = urlData.publicUrl;
 
         newFiles.push({
           url,
