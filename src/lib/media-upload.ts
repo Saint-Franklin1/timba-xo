@@ -132,15 +132,9 @@ export async function uploadMedia(
 
   if (uploadError) throw uploadError;
 
-  // Get public URL
+  // Get public URL (buckets are now public)
   const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(path);
-
-  // Since buckets are private, we'll use signed URLs
-  const { data: signedData, error: signedError } = await supabase.storage
-    .from(bucket)
-    .createSignedUrl(path, 60 * 60 * 24 * 365); // 1 year
-
-  const finalUrl = signedData?.signedUrl || urlData.publicUrl;
+  const finalUrl = urlData.publicUrl;
 
   // Get current user
   const { data: { user } } = await supabase.auth.getUser();
