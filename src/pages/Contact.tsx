@@ -40,10 +40,11 @@ export default function Contact() {
               <div className="space-y-6 mb-8">
                 {[
                   { icon: MapPin, label: "Location", value: "Eldoret, Kenya" },
-                  { icon: Phone, label: "Phone", value: "+254 700 000 000" },
-                  { icon: Mail, label: "Email", value: "info@timbaxo.com" },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-center gap-4">
+                  { icon: Phone, label: "Primary Phone / WhatsApp", value: "+254 792 611998" },
+                  { icon: Phone, label: "Alternative Phone", value: "+254 791 888057" },
+                  { icon: Mail, label: "Email", value: "officialtimbaxo@gmail.com" },
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-4">
                     <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
                       <item.icon className="h-5 w-5 text-primary" />
                     </div>
