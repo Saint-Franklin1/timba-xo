@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Crown, Star } from "lucide-react";
+import vipImage from "@/assets/vip-experience.jpg";
 
 export default function VIPSection() {
   return (
@@ -9,12 +10,8 @@ export default function VIPSection() {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Image placeholder */}
-          <div className="aspect-[4/3] rounded-2xl bg-secondary/50 border border-border flex items-center justify-center order-2 lg:order-1">
-            <div className="text-center">
-              <Crown className="h-16 w-16 text-primary/30 mx-auto mb-3" />
-              <p className="text-sm text-muted-foreground">VIP Experience Image</p>
-            </div>
+          <div className="aspect-[4/3] rounded-2xl overflow-hidden order-2 lg:order-1">
+            <img src={vipImage} alt="Timba XO VIP Experience - luxury lounge seating" className="w-full h-full object-cover" loading="lazy" />
           </div>
 
           {/* Content */}
