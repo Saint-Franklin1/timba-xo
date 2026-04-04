@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Wine, UtensilsCrossed, Calendar, Briefcase, Building2, LogOut, Plus, Trash2, Edit, Image as ImageIcon, LayoutDashboard, BookOpen, MessageSquare, Settings } from "lucide-react";
+import { Wine, UtensilsCrossed, Calendar, Briefcase, Building2, LogOut, Plus, Trash2, Edit, Image as ImageIcon, LayoutDashboard, BookOpen, MessageSquare, Settings, CreditCard, QrCode, DollarSign, Ticket } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import MediaManager from "@/components/admin/MediaManager";
