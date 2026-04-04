@@ -325,6 +325,18 @@ export default function Admin() {
           <TabsContent value="bookings" className="mt-6">
             <BookingsManager />
           </TabsContent>
+          <TabsContent value="payments" className="mt-6">
+            <PaymentVerification />
+          </TabsContent>
+          <TabsContent value="tickets" className="mt-6">
+            <TicketsManager />
+          </TabsContent>
+          <TabsContent value="scanner" className="mt-6">
+            <QRScanner />
+          </TabsContent>
+          <TabsContent value="pricing" className="mt-6">
+            <PricingManager />
+          </TabsContent>
           <TabsContent value="reservations" className="mt-6">
             <ReadOnlyTable table="reservations" columns={["user_name", "contact", "date", "time", "section", "type", "status"]} label="Reservations" />
           </TabsContent>
