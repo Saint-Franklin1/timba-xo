@@ -16,6 +16,10 @@ import MediaManager from "@/components/admin/MediaManager";
 import DashboardOverview from "@/components/admin/DashboardOverview";
 import BookingsManager from "@/components/admin/BookingsManager";
 import SecuritySettings from "@/components/admin/SecuritySettings";
+import PaymentVerification from "@/components/admin/PaymentVerification";
+import PricingManager from "@/components/admin/PricingManager";
+import QRScanner from "@/components/admin/QRScanner";
+import TicketsManager from "@/components/admin/TicketsManager";
 import ImageUploader from "@/components/admin/ImageUploader";
 
 const TABLE_BUCKET_MAP: Record<string, string> = {
