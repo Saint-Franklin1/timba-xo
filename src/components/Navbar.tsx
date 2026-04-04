@@ -18,6 +18,7 @@ const navLinks = [
   { label: "Events", to: "/events" },
   { label: "Venue", to: "/venue" },
   { label: "Careers", to: "/careers" },
+  { label: "Book Now", to: "/book" },
   { label: "Contact", to: "/contact" },
 ];
 

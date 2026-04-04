@@ -9,13 +9,17 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Wine, UtensilsCrossed, Calendar, Briefcase, Building2, LogOut, Plus, Trash2, Edit, Image as ImageIcon, LayoutDashboard, BookOpen, MessageSquare, Settings } from "lucide-react";
+import { Wine, UtensilsCrossed, Calendar, Briefcase, Building2, LogOut, Plus, Trash2, Edit, Image as ImageIcon, LayoutDashboard, BookOpen, MessageSquare, Settings, CreditCard, QrCode, DollarSign, Ticket } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import MediaManager from "@/components/admin/MediaManager";
 import DashboardOverview from "@/components/admin/DashboardOverview";
 import BookingsManager from "@/components/admin/BookingsManager";
 import SecuritySettings from "@/components/admin/SecuritySettings";
+import PaymentVerification from "@/components/admin/PaymentVerification";
+import PricingManager from "@/components/admin/PricingManager";
+import QRScanner from "@/components/admin/QRScanner";
+import TicketsManager from "@/components/admin/TicketsManager";
 import ImageUploader from "@/components/admin/ImageUploader";
 
 const TABLE_BUCKET_MAP: Record<string, string> = {
@@ -260,6 +264,10 @@ export default function Admin() {
             <TabsTrigger value="venue" className="gap-1"><Building2 className="h-3.5 w-3.5" /> Venue</TabsTrigger>
             <TabsTrigger value="media" className="gap-1"><ImageIcon className="h-3.5 w-3.5" /> Media</TabsTrigger>
             <TabsTrigger value="bookings" className="gap-1"><BookOpen className="h-3.5 w-3.5" /> Bookings</TabsTrigger>
+            <TabsTrigger value="payments" className="gap-1"><CreditCard className="h-3.5 w-3.5" /> Payments</TabsTrigger>
+            <TabsTrigger value="tickets" className="gap-1"><Ticket className="h-3.5 w-3.5" /> Tickets</TabsTrigger>
+            <TabsTrigger value="scanner" className="gap-1"><QrCode className="h-3.5 w-3.5" /> Scanner</TabsTrigger>
+            <TabsTrigger value="pricing" className="gap-1"><DollarSign className="h-3.5 w-3.5" /> Pricing</TabsTrigger>
             <TabsTrigger value="reservations">Reservations</TabsTrigger>
             <TabsTrigger value="applications">Applications</TabsTrigger>
             <TabsTrigger value="contacts" className="gap-1"><MessageSquare className="h-3.5 w-3.5" /> Messages</TabsTrigger>
@@ -316,6 +324,18 @@ export default function Admin() {
           </TabsContent>
           <TabsContent value="bookings" className="mt-6">
             <BookingsManager />
+          </TabsContent>
+          <TabsContent value="payments" className="mt-6">
+            <PaymentVerification />
+          </TabsContent>
+          <TabsContent value="tickets" className="mt-6">
+            <TicketsManager />
+          </TabsContent>
+          <TabsContent value="scanner" className="mt-6">
+            <QRScanner />
+          </TabsContent>
+          <TabsContent value="pricing" className="mt-6">
+            <PricingManager />
           </TabsContent>
           <TabsContent value="reservations" className="mt-6">
             <ReadOnlyTable table="reservations" columns={["user_name", "contact", "date", "time", "section", "type", "status"]} label="Reservations" />
