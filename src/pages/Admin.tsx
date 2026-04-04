@@ -264,6 +264,10 @@ export default function Admin() {
             <TabsTrigger value="venue" className="gap-1"><Building2 className="h-3.5 w-3.5" /> Venue</TabsTrigger>
             <TabsTrigger value="media" className="gap-1"><ImageIcon className="h-3.5 w-3.5" /> Media</TabsTrigger>
             <TabsTrigger value="bookings" className="gap-1"><BookOpen className="h-3.5 w-3.5" /> Bookings</TabsTrigger>
+            <TabsTrigger value="payments" className="gap-1"><CreditCard className="h-3.5 w-3.5" /> Payments</TabsTrigger>
+            <TabsTrigger value="tickets" className="gap-1"><Ticket className="h-3.5 w-3.5" /> Tickets</TabsTrigger>
+            <TabsTrigger value="scanner" className="gap-1"><QrCode className="h-3.5 w-3.5" /> Scanner</TabsTrigger>
+            <TabsTrigger value="pricing" className="gap-1"><DollarSign className="h-3.5 w-3.5" /> Pricing</TabsTrigger>
             <TabsTrigger value="reservations">Reservations</TabsTrigger>
             <TabsTrigger value="applications">Applications</TabsTrigger>
             <TabsTrigger value="contacts" className="gap-1"><MessageSquare className="h-3.5 w-3.5" /> Messages</TabsTrigger>
