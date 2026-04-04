@@ -17,6 +17,7 @@ const Venue = lazy(() => import("./pages/Venue"));
 const Careers = lazy(() => import("./pages/Careers"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Reservations = lazy(() => import("./pages/Reservations"));
+const BookingPage = lazy(() => import("./pages/BookingPage"));
 const Awards = lazy(() => import("./pages/Awards"));
 const Impact = lazy(() => import("./pages/Impact"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
