@@ -55,6 +55,24 @@ export type Database = {
           },
         ]
       }
+      booking_reference_counter: {
+        Row: {
+          counter: number
+          id: number
+          ref_date: string
+        }
+        Insert: {
+          counter?: number
+          id?: number
+          ref_date?: string
+        }
+        Update: {
+          counter?: number
+          id?: number
+          ref_date?: string
+        }
+        Relationships: []
+      }
       careers: {
         Row: {
           created_at: string
@@ -688,6 +706,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_booking_reference: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
